@@ -3,6 +3,11 @@ var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 var clients = {};
 
+//Parte das rotas com app
+
+
+
+// Parte do chat com SocketIO
 io.on("connection", function (client) {
   //juntando client ao server com join
   client.on("join", function(name){
