@@ -1,9 +1,17 @@
 import React from 'react'
 import './Index.css'
-export default class register extends React.Component{
-    render(){
+import Main from './Main'
+import Footer from './Footer'
+import Content from './Content'
+export default class Register extends React.Component {
+    render() {
+        return (
         <div>
-            <h1>register</h1>
-        </div>
+            <Main/>
+            <Content/>
+            <Footer/>
+           
+        </div>)
+
     }
 }

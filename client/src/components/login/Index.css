@@ -78,7 +78,7 @@
 .container-box>.form>input:hover{
     border-bottom: 1px solid red;
 }
-button:hover{
+.container-box>button:hover{
     animation-name: slow;
     animation-duration: 1s;
     animation-fill-mode: forwards;

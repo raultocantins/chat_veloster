@@ -1,0 +1,124 @@
+.container-main{
+    top: 0;
+    height:10vh;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    background-color: #102B3F;
+    align-items: center;
+    justify-content: center;
+    animation-fill-mode: forwards;
+    animation-name: closed;
+    animation-duration: 2s;
+    z-index: 1;
+    position: absolute;
+}
+.img-name{
+    display: flex;
+justify-content: space-around;
+    align-items: center;
+    width: 15%;   
+    color: #Fff;
+    height: 100%;
+  
+}
+.img-name > .img{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;
+       
+}
+.img-name>.img>img{
+    height: 60%;
+}
+.connection{
+    display: flex;
+    width: 85%;
+    justify-content: space-around;
+}
+.connection>.options{
+width: 80%;
+display: flex;
+justify-content: center;
+align-items: center;
+color: #fff;
+}
+.connection>.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn>.logout{
+    background-color: transparent;
+    color: #fff;
+    outline: none;
+    border: none;
+   font-size: 15px;
+   height: 50px;
+}
+.open{
+   background-color: transparent;
+   color: #fff;
+   border: none;
+   outline: none;  
+   position: absolute;
+   font-size: 30px;
+  top: 10px;
+  
+}
+.open>svg{
+    animation-name: arow;    
+  animation-duration: 1s;
+}
+.animation{
+    animation-fill-mode: forwards;
+    animation-name: open;
+    animation-duration: 1s;
+}
+.animationreverse{
+    animation-fill-mode: forwards;
+    animation-name: open;
+    animation-duration: 1s;
+}
+
+.container-content{
+    z-index: 0;
+    height: 80vh;
+    margin-top: 10vh;
+    
+}
+.container-footer{
+    height: 10vh;
+    
+}
+.btn>.logout:active{
+    color: rgba(255, 255, 255, 0.342);
+}
+
+@keyframes open{
+    from{
+
+    }
+    to{
+        height:30vh;  
+    }
+}
+@keyframes closed{
+    from{
+        height:30vh;
+    }
+    to{
+        height:10vh;  
+    }
+}
+@keyframes arow{
+    from{
+opacity: 0;
+    }
+    to{
+opacity: 1;
+    }
+}
