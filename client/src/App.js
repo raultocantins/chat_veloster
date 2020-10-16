@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Login from "./components/login/Index";
-import Register from './components/register/Index'
+import Home from './components/home/Index'
 
 function App() {
   return (
