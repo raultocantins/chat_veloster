@@ -6,7 +6,7 @@ import Home from './components/home/Index'
 function App() {
   return (
     <div className="App">
-     <Login/>
+     <Home/>
     </div>
   );
 }
