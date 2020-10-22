@@ -6,10 +6,11 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { AiFillCaretUp } from "react-icons/ai";
 import socketIOClient from "socket.io-client";
 import Chat from './Chat'
+import Users from './Users'
 const ENDPOINT = "http://localhost:4000";
 const socket = socketIOClient(ENDPOINT);
 
-export default class Home extends React.Component {
+export default class T extends React.Component {
   state = {
     open: false,
     name: "Alex raul",
@@ -21,7 +22,9 @@ export default class Home extends React.Component {
     text: "",
     name_text: "",
     nick_text: "",
-    data: [],
+    data: [{}],
+    online:[]
+
   };
   constructor(props) {
     super(props);
@@ -40,17 +43,32 @@ export default class Home extends React.Component {
       this.setState({ open: false });
     }
   }
+  componentDidUpdate(){
+    var mensagens=document.getElementsByClassName('mensagens') 
+    mensagens[0].scrollTop=mensagens[0].scrollHeight 
+  }
   componentDidMount() {
-    socket.emit("join", this.state.name);
-    /* socket.on("update", (data) => {
-      //console.log(data)
-      this.setState({ data: data });
-    });*/
+    var root=document.getElementsByClassName('inputmsg')
+    root[0].addEventListener("keypress",(e)=>{
+
+      if(e.key==="Enter"){
+        this.handleSubmit(e)
+      }
+    })
+    
+    
+    socket.emit("join", this.state.email);
+     socket.on("update", (data) => {     
+         var dados = Object.values(data)
+      this.setState({ online: dados });
+         
+      
+    });
     socket.on("chat", (data) => {
       this.setState({
         data: data,
-      });
-      console.log(data);
+      }); 
+     
     });
   }
 
@@ -59,7 +77,10 @@ export default class Home extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    socket.emit("send", [this.state.msg, this.state.name, this.state.nickname]);
+    if(this.state.msg){
+
+      socket.emit("send", [this.state.msg, this.state.name, this.state.nickname]);
+    }
     this.setState({ msg: "" });
   }
 
@@ -116,6 +137,9 @@ export default class Home extends React.Component {
           </div>
         </div>
         <div className="container-content">
+          <div className="users-online">
+            <Users data={this.state.online}/>            
+          </div>
 
        <Chat data={this.state.data}/>
                 </div>
