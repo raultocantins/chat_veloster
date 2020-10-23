@@ -12,8 +12,7 @@ io.on("connection", function (client) {
   //juntando client ao server com join
   client.on("join", function (name) {
     console.log("Joined: " + name);
-    clients[client.id] = name;     
-
+    clients[name] = name;    
     //client.emit("update", "You have connected to the server.");
     client.broadcast.emit("update",  clients);
     client.emit("update",  clients);

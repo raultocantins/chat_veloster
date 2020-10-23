@@ -2,7 +2,10 @@ import React from "react";
 import Axios from "axios";
 import "./Index.css";
 import Loading from "../../assets/load.svg";
-export default class login extends React.Component {
+import Api from '../config/Api'
+
+
+export default class Login extends React.Component {
   state = {
     email: "",
     password: "",
@@ -13,6 +16,8 @@ export default class login extends React.Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  
   handleInput(e) {
       let value= e.target.value.toLowerCase()     
     this.setState({ error: "" });
@@ -27,15 +32,32 @@ export default class login extends React.Component {
     } else {
       loading[0].setAttribute("style", "visibility:visible");
       var data = { email: this.state.email, password: this.state.password };
-      Axios.post("http://localhost:4000", data)
+      Axios.post('http://localhost:4001/signin', data)
         .then((res) => {
           //tratar token aqui e redirecionar para /home
+         
+          
+          var token = JSON.stringify(res.data);
+          var tokenJSON = JSON.parse(token);
+          window.localStorage.setItem("logToken", token);
+          Api.headers = {
+            Authorization: `Bearer ${tokenJSON.token}`,
+          };
+          if(tokenJSON.token){
+            this.props.history.push("/home");
+          }else{
+            this.setState({ error: res.data });
+            loading[0].setAttribute("style", "visibility:hidden");
+
+          }
           this.setState({ email: "", password: "" });
         })
         .catch((err) => {
-          loading[0].setAttribute("style", "visibility:hidden");
-          if (err.response) {
-            this.setState({ error: err.response.data });
+          console.log(err)
+         // this.props.history.push("/home");
+         loading[0].setAttribute("style", "visibility:hidden");
+          if (err) {
+            this.setState({ error: err.data });
           } else {
             this.setState({
               error: "Problemas no servidor, Por favor tente mais tarde.",
@@ -45,7 +67,7 @@ export default class login extends React.Component {
     }
   }
   componentDidMount(){
-    var root=document.getElementsByTagName('div')
+    var root=document.getElementsByClassName('container')
     root[0].addEventListener("keypress",(e)=>{
       if(e.key==="Enter"){
         this.handleSubmit()
