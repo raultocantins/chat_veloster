@@ -8,7 +8,6 @@ import socketIOClient from "socket.io-client";
 import Chat from "./Chat";
 import Users from "./Users";
 import Api from "../config/Api";
-import Axios from "axios";
 const ENDPOINT = "http://localhost:4000";
 const socket = socketIOClient(ENDPOINT);
 
@@ -52,11 +51,7 @@ export default class Home extends React.Component {
   }
    componentDidMount() {
   
-    Axios.post(
-      "http://localhost:4001/validate",
-      JSON.parse(window.localStorage.getItem("logToken"))
-      
-    )
+    Api.post("/validate",JSON.parse(window.localStorage.getItem("logToken")))
       .then((res) => {
         console.log(res.data);
         this.setState({

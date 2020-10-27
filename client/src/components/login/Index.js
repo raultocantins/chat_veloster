@@ -1,10 +1,7 @@
 import React from "react";
-import Axios from "axios";
 import "./Index.css";
 import Loading from "../../assets/load.svg";
 import Api from '../config/Api'
-
-
 export default class Login extends React.Component {
   state = {
     email: "",
@@ -32,10 +29,9 @@ export default class Login extends React.Component {
     } else {
       loading[0].setAttribute("style", "visibility:visible");
       var data = { email: this.state.email, password: this.state.password };
-      Axios.post('http://localhost:4001/signin', data)
+      Api.post('/signin', data)
         .then((res) => {
-          //tratar token aqui e redirecionar para /home
-         
+          //tratar token aqui e redirecionar para /home        
           
           var token = JSON.stringify(res.data);
           var tokenJSON = JSON.parse(token);
@@ -46,7 +42,7 @@ export default class Login extends React.Component {
           if(tokenJSON.token){
             this.props.history.push("/home");
           }else{
-            this.setState({ error: res.data });
+            this.setState({ error: res.data.message });
             loading[0].setAttribute("style", "visibility:hidden");
 
           }
@@ -57,7 +53,7 @@ export default class Login extends React.Component {
          // this.props.history.push("/home");
          loading[0].setAttribute("style", "visibility:hidden");
           if (err) {
-            this.setState({ error: err.data });
+            this.setState({ error: err.data.message });
           } else {
             this.setState({
               error: "Problemas no servidor, Por favor tente mais tarde.",
@@ -67,6 +63,19 @@ export default class Login extends React.Component {
     }
   }
   componentDidMount(){
+
+    if(window.localStorage.getItem("logToken")){
+      Api.post("/validate",JSON.parse(window.localStorage.getItem("logToken")))
+      .then((res) => {        
+        this.props.history.push("/home");
+      })
+      .catch((err) => {
+      
+       
+      });
+    }
+
+
     var root=document.getElementsByClassName('container')
     root[0].addEventListener("keypress",(e)=>{
       if(e.key==="Enter"){
