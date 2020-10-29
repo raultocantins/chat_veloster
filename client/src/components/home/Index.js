@@ -8,9 +8,7 @@ import socketIOClient from "socket.io-client";
 import Chat from "./Chat";
 import Users from "./Users";
 import Api from "../config/Api";
-const ENDPOINT = "http://localhost:4000";
-const socket = socketIOClient(ENDPOINT);
-
+const socket = socketIOClient(process.env.REACT_APP_API_URL);
 export default class Home extends React.Component {
   state = {
     open: false,
@@ -171,7 +169,7 @@ export default class Home extends React.Component {
             <Users data={this.state.online} />
           </div>
 
-          <Chat data={this.state.data} />
+          <Chat data={this.state.data} name={this.state.name} />
         </div>
         <div className="container-footer">
           <input

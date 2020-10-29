@@ -4,7 +4,7 @@ var io = require("socket.io")(http);
 const cors=require('cors')
 var clients = {};
 var msgs = [];
-var date = new Date();
+var date = new Date().toString().toLowerCase();
 var bodyParser = require("body-parser");
 const connection = require("./database");
 const User = require("./user");
@@ -111,14 +111,14 @@ catch(e){
 }
   })
 
-
-
-
 // Parte do chat com SocketIO
 io.on("connection", function (client) {
+  setInterval(()=>{
+msgs=[]
+  },60*60*24)
   //juntando client ao server com join
   client.on("join", function (name) {
-    console.log("Joined: " + name);
+    //console.log("Joined: " + name);
     clients[name] = name;
     //client.emit("update", "You have connected to the server.");
     client.broadcast.emit("update", clients);
@@ -126,7 +126,7 @@ io.on("connection", function (client) {
     client.emit("chat", msgs);
   });
   client.on("send", function (msg) {
-    console.log("Message: " + msg);
+    //console.log("Message: " + msg);
     msg.push(client.id);
     msg.push(date.toLocaleString());
     msgs.push(msg);
@@ -139,7 +139,7 @@ io.on("connection", function (client) {
     io.emit("update", clients);
   });
 });
-
-http.listen(4000, () => {
+ 
+http.listen(process.env.PORT|| 4000, () => {
   console.log("Server running on port 4000");
 });
